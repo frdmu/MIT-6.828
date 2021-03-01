@@ -1,41 +1,9 @@
-***
 *** Now run 'make gdb'.
 ***
 6828 decimal is 15254 octal!
-x 1, y 3, z 4
-x=3, y=1600
-Printing colored strings: Red Green Yellow 
-With background color: Red Green Yellow 
-He110 World
-entering test_backtrace 5
-entering test_backtrace 4
-entering test_backtrace 3
-entering test_backtrace 2
-entering test_backtrace 1
-entering test_backtrace 0
-Stack backtrace:
-ebp f0110f08  eip f010008f  args 00000000 00000000 00000000 00000000 f01009d4
-kern/init.c:18: test_backtrace+79
-ebp f0110f28  eip f0100068  args 00000000 00000001 f0110f68 00000000 f01009d4
-kern/init.c:16: test_backtrace+40
-ebp f0110f48  eip f0100068  args 00000001 00000002 f0110f88 00000000 f01009d4
-kern/init.c:16: test_backtrace+40
-ebp f0110f68  eip f0100068  args 00000002 00000003 f0110fa8 00000000 f01009d4
-kern/init.c:16: test_backtrace+40
-ebp f0110f88  eip f0100068  args 00000003 00000004 f0110fb8 00000000 f0101b32
-kern/init.c:16: test_backtrace+40
-ebp f0110fa8  eip f0100068  args 00000004 00000005 f0110ff8 f01000d8 f0101b32
-kern/init.c:16: test_backtrace+40
-ebp f0110fc8  eip f0100188  args 00000005 0000e110 f0110fec 00000000 00000000
-kern/init.c:64: i386_init+244
-ebp f0110ff8  eip f010003e  args 00112021 00000000 00000000 00000000 00000000
-kern/entry.S:83: <unknown>+0
-leaving test_backtrace 0
-leaving test_backtrace 1
-leaving test_backtrace 2
-leaving test_backtrace 3
-leaving test_backtrace 4
-leaving test_backtrace 5
+Physical memory: 131072K available, base = 640K, extended = 130432K
+kernel panic at kern/pmap.c:128: mem_init: This function is not finished
+
 Welcome to the JOS kernel monitor!
 Type 'help' for a list of commands.
-qemu: terminating on signal 15 from pid 2807
+qemu: terminating on signal 15 from pid 17922
