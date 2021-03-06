@@ -6,4 +6,4 @@ kernel panic at kern/pmap.c:128: mem_init: This function is not finished
 
 Welcome to the JOS kernel monitor!
 Type 'help' for a list of commands.
-qemu: terminating on signal 15 from pid 17922
+qemu: terminating on signal 15 from pid 664
