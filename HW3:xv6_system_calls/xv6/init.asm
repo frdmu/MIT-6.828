@@ -653,10 +653,12 @@ SYSCALL(uptime)
  3d9:	b8 0e 00 00 00       	mov    $0xe,%eax
  3de:	cd 40                	int    $0x40
  3e0:	c3                   	ret    
- 3e1:	66 90                	xchg   %ax,%ax
- 3e3:	66 90                	xchg   %ax,%ax
- 3e5:	66 90                	xchg   %ax,%ax
- 3e7:	66 90                	xchg   %ax,%ax
+
+000003e1 <date>:
+SYSCALL(date)
+ 3e1:	b8 16 00 00 00       	mov    $0x16,%eax
+ 3e6:	cd 40                	int    $0x40
+ 3e8:	c3                   	ret    
  3e9:	66 90                	xchg   %ax,%ax
  3eb:	66 90                	xchg   %ax,%ax
  3ed:	66 90                	xchg   %ax,%ax

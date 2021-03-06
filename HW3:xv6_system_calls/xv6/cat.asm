@@ -678,10 +678,12 @@ SYSCALL(uptime)
  3f9:	b8 0e 00 00 00       	mov    $0xe,%eax
  3fe:	cd 40                	int    $0x40
  400:	c3                   	ret    
- 401:	66 90                	xchg   %ax,%ax
- 403:	66 90                	xchg   %ax,%ax
- 405:	66 90                	xchg   %ax,%ax
- 407:	66 90                	xchg   %ax,%ax
+
+00000401 <date>:
+SYSCALL(date)
+ 401:	b8 16 00 00 00       	mov    $0x16,%eax
+ 406:	cd 40                	int    $0x40
+ 408:	c3                   	ret    
  409:	66 90                	xchg   %ax,%ax
  40b:	66 90                	xchg   %ax,%ax
  40d:	66 90                	xchg   %ax,%ax

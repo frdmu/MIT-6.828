@@ -1989,10 +1989,12 @@ SYSCALL(uptime)
      dc9:	b8 0e 00 00 00       	mov    $0xe,%eax
      dce:	cd 40                	int    $0x40
      dd0:	c3                   	ret    
-     dd1:	66 90                	xchg   %ax,%ax
-     dd3:	66 90                	xchg   %ax,%ax
-     dd5:	66 90                	xchg   %ax,%ax
-     dd7:	66 90                	xchg   %ax,%ax
+
+00000dd1 <date>:
+SYSCALL(date)
+     dd1:	b8 16 00 00 00       	mov    $0x16,%eax
+     dd6:	cd 40                	int    $0x40
+     dd8:	c3                   	ret    
      dd9:	66 90                	xchg   %ax,%ax
      ddb:	66 90                	xchg   %ax,%ax
      ddd:	66 90                	xchg   %ax,%ax

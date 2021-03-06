@@ -6080,10 +6080,12 @@ SYSCALL(uptime)
     3969:	b8 0e 00 00 00       	mov    $0xe,%eax
     396e:	cd 40                	int    $0x40
     3970:	c3                   	ret    
-    3971:	66 90                	xchg   %ax,%ax
-    3973:	66 90                	xchg   %ax,%ax
-    3975:	66 90                	xchg   %ax,%ax
-    3977:	66 90                	xchg   %ax,%ax
+
+00003971 <date>:
+SYSCALL(date)
+    3971:	b8 16 00 00 00       	mov    $0x16,%eax
+    3976:	cd 40                	int    $0x40
+    3978:	c3                   	ret    
     3979:	66 90                	xchg   %ax,%ax
     397b:	66 90                	xchg   %ax,%ax
     397d:	66 90                	xchg   %ax,%ax

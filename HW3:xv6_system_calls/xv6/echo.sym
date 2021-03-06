@@ -14,7 +14,7 @@
 00000000 ulib.c
 00000000 printf.c
 00000370 printint
-000007a8 digits.1449
+000007a8 digits.1451
 00000000 umalloc.c
 00000a58 freep
 00000a5c base
@@ -48,6 +48,7 @@
 00000200 stat
 00000a58 _edata
 00000a64 _end
+00000361 date
 00000321 link
 000002c1 exit
 00000250 atoi
