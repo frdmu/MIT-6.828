@@ -84,7 +84,7 @@ static void check_page_installed_pgdir(void);
 static void *
 boot_alloc(uint32_t n)
 {
-	static char *nextfree;	// virtual address of next byte of free memory
+	static char *nextfree; // virtual address
 	char *result = NULL;
 
 	// Initialize nextfree if this is the first time.
@@ -152,7 +152,7 @@ mem_init(void)
 
 	// Permissions: kernel R, user R
 	kern_pgdir[PDX(UVPT)] = PADDR(kern_pgdir) | PTE_U | PTE_P;
-
+	cprintf("UVPT %x -> PADDR(kern_pgdir) %x, pdx=%d\n", UVPT, PADDR(kern_pgdir), PDX(UVPT));
 	//////////////////////////////////////////////////////////////////////
 	// Allocate an array of npages 'struct PageInfo's and store it in 'pages'.
 	// The kernel uses this array to keep track of physical pages: for
@@ -185,7 +185,8 @@ mem_init(void)
 	//      (ie. perm = PTE_U | PTE_P)
 	//    - pages itself -- kernel RW, user NONE
 	// Your code goes here:
-
+	boot_map_region(kern_pgdir, UPAGES, ROUNDUP(npages*sizeof(struct PageInfo), PGSIZE), PADDR(pages), PTE_U);
+	cprintf("UPAGES %x -> PADDR(pages) %x, pdx=%d\n", UPAGES, PADDR(pages), PDX(UPAGES)) ;
 	//////////////////////////////////////////////////////////////////////
 	// Use the physical memory that 'bootstack' refers to as the kernel
 	// stack.  The kernel stack grows down from virtual address KSTACKTOP.
@@ -197,7 +198,8 @@ mem_init(void)
 	//       overwrite memory.  Known as a "guard page".
 	//     Permissions: kernel RW, user NONE
 	// Your code goes here:
-
+	boot_map_region(kern_pgdir, KSTACKTOP-KSTKSIZE, KSTKSIZE, PADDR(bootstack), PTE_W);
+	cprintf("(KSTACKTOP-KSTKSIZE) %x -> PADDR(bootstack) %x, pdx=%d\n", (KSTACKTOP-KSTKSIZE), PADDR(bootstack), PDX(KSTACKTOP-KSTKSIZE)) ;
 	//////////////////////////////////////////////////////////////////////
 	// Map all of physical memory at KERNBASE.
 	// Ie.  the VA range [KERNBASE, 2^32) should map to
@@ -206,7 +208,10 @@ mem_init(void)
 	// we just set up the mapping anyway.
 	// Permissions: kernel RW, user NONE
 	// Your code goes here:
-
+	uint32_t kern_size = ROUNDUP((0xffffffff-KERNBASE), PGSIZE);	
+	cprintf("size: %d pages:%d\n", kern_size, kern_size/PGSIZE);	
+	boot_map_region(kern_pgdir, KERNBASE, kern_size, 0, PTE_W);
+	cprintf("KERNBASE %x -> 0, pdx=%d\n", KERNBASE, PDX(KERNBASE));
 	// Check that the initial page directory has been set up correctly.
 	check_kern_pgdir();
 
