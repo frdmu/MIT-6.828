@@ -6,3 +6,6 @@
 2.  https://github.com/SmallPond/MIT6.828_OS
 3.  https://github.com/hehao98/MIT6.828Labs-JOS
 4.  https://123xzy.github.io/2019/03/08/MIT-6-828-Operating-System-Engineering
+
+# Undone:
+- lab2 challenge
