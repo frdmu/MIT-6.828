@@ -18,7 +18,7 @@ struct entry *table[NBUCKET];
 int keys[NKEYS];
 int nthread = 1;
 volatile int done;
-
+pthread_mutex_t lock; // declare a lock
 
 double
 now()
@@ -56,7 +56,9 @@ static
 void put(int key, int value)
 {
   int i = key % NBUCKET;
+  pthread_mutex_lock(&lock); 
   insert(key, value, &table[i], table[i]);
+  pthread_mutex_unlock(&lock); 
 }
 
 static struct entry*
@@ -77,7 +79,7 @@ thread(void *xa)
   int b = NKEYS/nthread;
   int k = 0;
   double t1, t0;
-
+  
   //  printf("b = %d\n", b);
   t0 = now();
   for (i = 0; i < b; i++) {
@@ -122,6 +124,7 @@ main(int argc, char *argv[])
     keys[i] = random();
   }
   t0 = now();
+  pthread_mutex_init(&lock, NULL);// initialize the lock
   for(i = 0; i < nthread; i++) {
     assert(pthread_create(&tha[i], NULL, thread, (void *) i) == 0);
   }
