@@ -8,4 +8,4 @@
  - A: Maybe there is no corresponding interrupt handler to compete for file_table_lock.
 
 # xv6 lock implementation
- - A: Considering such a case, if thread A first clears lk->locked, and then thread B acquire this lock, and B then set lk->pcs[0] and lk->cpu, finally A clearslk->pcs[0] and lk->cpu. The result is B's setup is cleared!
+ - A: Considering such a case, if thread A first clears lk->locked, and then thread B acquire this lock, and B then set lk->pcs[0] and lk->cpu, finally A clears lk->pcs[0] and lk->cpu. The result is B's setup is cleared!
