@@ -161,13 +161,13 @@ mem_init(void)
 	// array.  'npages' is the number of physical pages in memory.  Use memset
 	// to initialize all fields of each struct PageInfo to 0.
 	// Your code goes here:
-	pages = boot_alloc(npages * sizeof(struct PageInfo));
+	pages = (struct PageInfo*)boot_alloc(npages * sizeof(struct PageInfo));
 	memset(pages, 0, npages * sizeof(struct PageInfo));
 
 	//////////////////////////////////////////////////////////////////////
 	// Make 'envs' point to an array of size 'NENV' of 'struct Env'.
 	// LAB 3: Your code here.
-
+	envs = (struct Env*)boot_alloc(NENV * sizeof(struct Env));
 	//////////////////////////////////////////////////////////////////////
 	// Now that we've allocated the initial kernel data structures, we set
 	// up the list of free physical pages. Once we've done so, all further
@@ -200,7 +200,8 @@ mem_init(void)
 	//    - the new image at UENVS  -- kernel R, user R
 	//    - envs itself -- kernel RW, user NONE
 	// LAB 3: Your code here.
-	
+	boot_map_region(kern_pgdir, UENVS, ROUNDUP(NENV*sizeof(struct Env), PGSIZE), PADDR(envs), PTE_U);	
+	cprintf("UENVS:%x -> PADDR(envs) %x, pdx=%d\n", UENVS, PADDR(envs), PDX(UENVS)) ;
 	//////////////////////////////////////////////////////////////////////
 	// Use the physical memory that 'bootstack' refers to as the kernel
 	// stack.  The kernel stack grows down from virtual address KSTACKTOP.
@@ -299,8 +300,8 @@ page_init(void)
 	// 3) no codes for IO hole[0xa0000, 0x100000);
 		
 	// 4) kernel in pychical address: EXTPHYSMEM=0x100000;
-	//    phychical address: ((char*)pages + (sizeof(struct PageInfo) * npages) - 0xf0000000) is already in use for page tables and other data structure;	
-	int med = (int)ROUNDUP((char*)pages + (sizeof(struct PageInfo) * npages) - 0xf0000000, PGSIZE) / PGSIZE;	
+	//    phychical address: ((char*)envs + (sizeof(struct Env) * NENV) - 0xf0000000) is already in use for envs;	
+	int med = (int)ROUNDUP((char*)envs+ (sizeof(struct Env) * NENV) - 0xf0000000, PGSIZE) / PGSIZE;	
 	for (i = med; i < npages; i++) {
 		pages[i].pp_ref = 0;
 		pages[i].pp_link = page_free_list;
