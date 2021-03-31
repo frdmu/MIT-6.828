@@ -186,6 +186,8 @@ trap_dispatch(struct Trapframe *tf)
 			page_fault_handler(tf);
 			break;
 		case T_BRKPT:
+		case T_DEBUG:
+			cprintf("Triggered Breakpoint at 0x%08x\n", tf->tf_eip);
 			monitor(tf);	
 			break;
 		default:
