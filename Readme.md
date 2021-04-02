@@ -1,7 +1,7 @@
 # Problem:
-- For GCC 7 or later, after switching to lab3 branch an error like kernel panic at kern/pmap.c:147: PADDR called with invalid kva 00000000 will occur.
-- This is a bug caused by the linker script, modify kern/kernel.ld as follow will fix it.
-- https://github.com/frdmu/MIT-6.828/commit/56516630e75f93acaa93424b6c4e3821e5fafeed
+- :point_right:For GCC 7 or later, after switching to lab3 branch an error like kernel panic at kern/pmap.c:147: PADDR called with invalid kva 00000000 will occur.
+  This is a bug caused by the linker script, modify kern/kernel.ld as follow will fix it.
+  https://github.com/frdmu/MIT-6.828/commit/56516630e75f93acaa93424b6c4e3821e5fafeed
 # Website: 
 1. https://www.cs.hmc.edu/~rhodes/courses/cs134/sp19/schedule.html  
 2. https://pdos.csail.mit.edu/6.828/2011/schedule.html
