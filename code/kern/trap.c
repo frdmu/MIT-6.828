@@ -1,7 +1,7 @@
 #include <inc/mmu.h>
 #include <inc/x86.h>
 #include <inc/assert.h>
-
+#include <inc/error.h>
 #include <kern/pmap.h>
 #include <kern/trap.h>
 #include <kern/console.h>
@@ -189,6 +189,9 @@ trap_dispatch(struct Trapframe *tf)
 		case T_DEBUG:
 			cprintf("Triggered Breakpoint at 0x%08x\n", tf->tf_eip);
 			monitor(tf);	
+			break;
+		case T_SYSCALL:
+			tf->tf_regs.reg_eax = syscall(tf->tf_regs.reg_eax, tf->tf_regs.reg_edx, tf->tf_regs.reg_ecx, tf->tf_regs.reg_ebx, tf->tf_regs.reg_edi, tf->tf_regs.reg_esi); 
 			break;
 		default:
 			break;
