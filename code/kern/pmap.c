@@ -398,7 +398,7 @@ pgdir_walk(pde_t *pgdir, const void *va, int create)
 
 	pde = &pgdir[pdx];
 	
-	if (*pde & PTE_P) {	
+	if (*pde & PTE_P) { // the relevant page table page exist	
 		// from page directory entry we first get physical address
 		// and then transform it to the kernel virtual address  
 		pte = KADDR(PTE_ADDR(*pde));
@@ -605,7 +605,20 @@ int
 user_mem_check(struct Env *env, const void *va, size_t len, int perm)
 {
 	// LAB 3: Your code here.
+	pte_t *pgdir, *pde, *pte;	
+	pgdir = env->env_pgdir;
+	uintptr_t begin = ROUNDDOWN((uintptr_t)va, PGSIZE);
+	uintptr_t end = ROUNDUP((uintptr_t)va+len, PGSIZE);
 
+	for (; begin < end; begin += PGSIZE) {
+		pde = &pgdir[PDX(begin)];	
+		pte = pgdir_walk(pgdir, (void*)begin, 0);
+		if (begin > ULIM || !(*pde&perm) || !pte || !(*pte&perm)) {
+			user_mem_check_addr = MAX(begin, (uintptr_t)va);	
+			return -E_FAULT;	
+		}	
+	}
+	
 	return 0;
 }
 
