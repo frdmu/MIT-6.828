@@ -25,6 +25,5 @@
 - lab2 challenge
 - HW5 Optional challenges
 - lab3 challenge1(assembly macros)
-- lab3 exercise 7: ```testbss``` can not pass ```make grade```
 - lab3 challenge3
 
