@@ -29,4 +29,5 @@
 - HW5 Optional challenges
 - lab3 challenge1(assembly macros)
 - lab3 challenge3
+- HW8 Optional challenges
 
