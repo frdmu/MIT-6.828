@@ -3,14 +3,7 @@
   This is a bug caused by the linker script, modify kern/kernel.ld as follow will fix it.
 >>https://github.com/frdmu/MIT-6.828/commit/56516630e75f93acaa93424b6c4e3821e5fafeed
   
-- :point_right:Before I plan to do HW8, I start the xv6 by typing ```make qemu``` firstly, but the results show that:
-```
-  alarmtest.o: In function `main':
-  MIT-6.828/HW3:xv6_system_calls/xv6/alarmtest.c:12: undefined reference to `alarm'
-  Makefile:149: recipe for target '_alarmtest' failed
-  make: **** [_alarmtest] Error 1
-```
->>Solution: open alarmtest.c, user.h, syscall.h, usys.S respectively and then just save them once again, after doing this, the problem is solved.
+- :point_right:If you have any problem when ```make```, maybe you can try ```make grade``` first!
  
 # Website: 
 1. https://www.cs.hmc.edu/~rhodes/courses/cs134/sp19/schedule.html  
