@@ -326,6 +326,11 @@ page_init(void)
 	
 	// 2)[0x1000, 0xa0000)
 	for (i = 1; i < npages_basemem; i++) {
+		if (i == MPENTRY_PADDR / PGSIZE) {
+			pages[0].pp_ref = 1;
+			pages[0].pp_link = NULL;	
+			continue;	
+		} 
 		pages[i].pp_ref = 0;
 		pages[i].pp_link = page_free_list;
 		page_free_list = &pages[i];
@@ -647,7 +652,17 @@ mmio_map_region(physaddr_t pa, size_t size)
 	// Hint: The staff solution uses boot_map_region.
 	//
 	// Your code here:
-	panic("mmio_map_region not implemented");
+	size_t sz = ROUNDUP(size, PGSIZE);
+	void *ret = (void*)base;
+	if (base + sz < MMIOLIM) {
+		boot_map_region(kern_pgdir, base, sz, pa, PTE_PCD|PTE_PWT|PTE_W);	
+	} else {
+		panic("MMIOLIM out of memory!\n");	
+	}	
+	base += sz;
+	return ret;	
+	//panic("mmio_map_region not implemented");
+	
 }
 
 static uintptr_t user_mem_check_addr;
