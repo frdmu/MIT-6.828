@@ -3,7 +3,7 @@
   This is a bug caused by the linker script, modify kern/kernel.ld as follow will fix it.
 >>https://github.com/frdmu/MIT-6.828/commit/56516630e75f93acaa93424b6c4e3821e5fafeed
   
-- :point_right:If you have any problem when ```make```, maybe you can try ```make grade``` first!
+- :point_right:If you have any problem when ```make```, maybe you can try ```make clean``` first!
  
 # Website: 
 1. https://www.cs.hmc.edu/~rhodes/courses/cs134/sp19/schedule.html  
