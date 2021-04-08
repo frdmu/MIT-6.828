@@ -279,6 +279,11 @@ mem_init_mp(void)
 	//     Permissions: kernel RW, user NONE
 	//
 	// LAB 4: Your code here:
+	int i;
+	for (i = 0; i < NCPU; i++) {
+		uintptr_t stk_i = KSTACKTOP - i * (KSTKSIZE + KSTKGAP) - KSTKSIZE;
+		boot_map_region(kern_pgdir, stk_i, KSTKSIZE, PADDR(percpu_kstacks[i]), PTE_W);
+	}
 
 }
 
@@ -895,7 +900,7 @@ check_kern_pgdir(void)
 	for (i = 0; i < n; i += PGSIZE)
 		assert(check_va2pa(pgdir, UENVS + i) == PADDR(envs) + i);
 	// check phys mem
-	for (i = 0; i < npages * PGSIZE; i += PGSIZE)
+	for (i = 0; i < npages * PGSIZE; i += PGSIZE) 
 		assert(check_va2pa(pgdir, KERNBASE + i) == i);
 
 	// check kernel stack
