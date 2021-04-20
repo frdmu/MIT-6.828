@@ -1,4 +1,4 @@
-# There are three things most inportant in process:
+# There are three things most important in process:
 - address space
 - context
 - program
