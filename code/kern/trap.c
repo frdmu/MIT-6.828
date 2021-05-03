@@ -50,6 +50,13 @@ extern void mchk_handler();
 extern void simderr_handler();
 extern void syscall_handler();
 
+extern void timer_handler();
+extern void kbd_handler();
+extern void serial_handler();
+extern void spurious_handler();
+extern void ide_handler();
+extern void error_handler();
+
 static const char *trapname(int trapno)
 {
 	static const char * const excnames[] = {
@@ -91,25 +98,32 @@ trap_init(void)
 	extern struct Segdesc gdt[];
 
 	// LAB 3: Your code here.
-	SETGATE(idt[T_DIVIDE], true, GD_KT, divide_handler, 0);
-	SETGATE(idt[T_DEBUG], true, GD_KT, debug_handler, 0);	
+	SETGATE(idt[T_DIVIDE], false, GD_KT, divide_handler, 0);
+	SETGATE(idt[T_DEBUG], false, GD_KT, debug_handler, 0);	
 	SETGATE(idt[T_NMI], false, GD_KT, nmi_handler, 0);	
-	SETGATE(idt[T_BRKPT], true, GD_KT, brkpt_handler, 3);	
-	SETGATE(idt[T_OFLOW], true, GD_KT, oflow_handler, 0);	
-	SETGATE(idt[T_BOUND], true, GD_KT, bound_handler, 0);	
-	SETGATE(idt[T_ILLOP], true, GD_KT, illop_handler, 0);	
-	SETGATE(idt[T_DEVICE], true, GD_KT, device_handler, 0);	
+	SETGATE(idt[T_BRKPT], false, GD_KT, brkpt_handler, 3);	
+	SETGATE(idt[T_OFLOW], false, GD_KT, oflow_handler, 0);	
+	SETGATE(idt[T_BOUND], false, GD_KT, bound_handler, 0);	
+	SETGATE(idt[T_ILLOP], false, GD_KT, illop_handler, 0);	
+	SETGATE(idt[T_DEVICE], false, GD_KT, device_handler, 0);	
 	SETGATE(idt[T_DBLFLT], false, GD_KT, dblflt_handler, 0);	
-	SETGATE(idt[T_TSS], true, GD_KT, tss_handler, 0);	
-	SETGATE(idt[T_SEGNP], true, GD_KT, segnp_handler, 0);	
-	SETGATE(idt[T_STACK], true, GD_KT, stack_handler, 0);	
-	SETGATE(idt[T_GPFLT], true, GD_KT, gpflt_handler, 0);	
-	SETGATE(idt[T_PGFLT], true, GD_KT, pgflt_handler, 0);	
-	SETGATE(idt[T_FPERR], true, GD_KT, fperr_handler, 0);	
-	SETGATE(idt[T_ALIGN], true, GD_KT, align_handler, 0);	
+	SETGATE(idt[T_TSS], false, GD_KT, tss_handler, 0);	
+	SETGATE(idt[T_SEGNP], false, GD_KT, segnp_handler, 0);	
+	SETGATE(idt[T_STACK], false, GD_KT, stack_handler, 0);	
+	SETGATE(idt[T_GPFLT], false, GD_KT, gpflt_handler, 0);	
+	SETGATE(idt[T_PGFLT], false, GD_KT, pgflt_handler, 0);	
+	SETGATE(idt[T_FPERR], false, GD_KT, fperr_handler, 0);	
+	SETGATE(idt[T_ALIGN], false, GD_KT, align_handler, 0);	
 	SETGATE(idt[T_MCHK], false, GD_KT, mchk_handler, 0);	
-	SETGATE(idt[T_SIMDERR], true, GD_KT, simderr_handler, 0);	
-	SETGATE(idt[T_SYSCALL], true, GD_KT, syscall_handler, 3);	
+	SETGATE(idt[T_SIMDERR], false, GD_KT, simderr_handler, 0);	
+	SETGATE(idt[T_SYSCALL], false, GD_KT, syscall_handler, 3);	
+	// extern interrupts	
+	SETGATE(idt[IRQ_OFFSET + IRQ_TIMER], false, GD_KT, timer_handler, 0);	
+	SETGATE(idt[IRQ_OFFSET + IRQ_KBD], false, GD_KT, kbd_handler, 0);	
+	SETGATE(idt[IRQ_OFFSET + IRQ_SERIAL], false, GD_KT, serial_handler, 0);	
+	SETGATE(idt[IRQ_OFFSET + IRQ_SPURIOUS], false, GD_KT, spurious_handler, 0);	
+	SETGATE(idt[IRQ_OFFSET + IRQ_IDE], false, GD_KT, ide_handler, 0);	
+	SETGATE(idt[IRQ_OFFSET + IRQ_ERROR], false, GD_KT, error_handler, 0);	
 	// Per-CPU setup 
 	trap_init_percpu();
 }
@@ -271,7 +285,7 @@ trap(struct Trapframe *tf)
 	// the interrupt path.
 	assert(!(read_eflags() & FL_IF));
 
-	//cprintf("Incoming TRAP frame at %p\n", tf);
+	// cprintf("Incoming TRAP frame at %p\n", tf);
 
 	if ((tf->tf_cs & 3) == 3) {
 		// Trapped from user mode.
