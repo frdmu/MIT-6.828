@@ -8,14 +8,18 @@
 # Website: 
 1. https://www.cs.hmc.edu/~rhodes/courses/cs134/sp19/schedule.html  
 2. https://pdos.csail.mit.edu/6.828/2011/schedule.html
+# Directory structure description：
+- JOS source code in ```code``` directory
+- xv6 source code in ```HW3:xv6_system_calls``` directory
 # Command:
-1. grade
+1. grading your answer
 - $ ```make grade```
-3. build JOS
+3. build JOS/xv6
+- $ ```make clean```
 - $ ```make```
-4. start virtual machine
+5. start virtual machine
 - $ ```make qemu```
-5. debug:
+6. debug:
 - one terminal $ ```make qemu-gdb``` 
 - another terminal $ ```make gdb```
 # Refer: 
