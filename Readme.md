@@ -1,6 +1,6 @@
 
 # Environment
-- gcc 7 
+- gcc 4.8 
 - Install ```qemu```
 # Directory structure description
 - JOS source code in ```code``` directory
