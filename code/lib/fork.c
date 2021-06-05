@@ -67,9 +67,12 @@ duppage(envid_t envid, unsigned pn)
 	int r;
 	// LAB 4: Your code here.
 	uintptr_t va = pn * PGSIZE;	
-	
+    if (uvpt[pn] & PTE_SHARE) {
+		if ((r = sys_page_map(thisenv->env_id, (void*)va, envid, (void*)va, uvpt[pn]&PTE_SYSCALL)) < 0)
+			return r;
+    }	
 	// if the page is writable or copy-on-write
-	if ((uvpt[pn] & PTE_W) || (uvpt[pn] & PTE_COW)) {
+	else if ((uvpt[pn] & PTE_W) || (uvpt[pn] & PTE_COW)) {
 		// child
 		if ((r = sys_page_map(thisenv->env_id, (void*)va, envid, (void*)va, PTE_P|PTE_U|PTE_COW)) < 0)
 			return r;
