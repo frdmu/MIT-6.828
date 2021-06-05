@@ -1,6 +1,10 @@
 
 # Environment
+- gcc 7 
 - Install ```qemu```
+# Directory structure description：
+- JOS source code in ```code``` directory
+- xv6 source code in ```HW3:xv6_system_calls/xv6``` directory
 # Command:
 1. build JOS/xv6
 - $ ```make clean```
@@ -12,9 +16,6 @@
 - another terminal $ ```make gdb```
 4. grading your answer in JOS
 - $ ```make grade```
-# Directory structure description：
-- JOS source code in ```code``` directory
-- xv6 source code in ```HW3:xv6_system_calls/xv6``` directory
 # Some bugs:
 - :point_right:For GCC 7 or later, after switching to lab3 branch an error like ```kernel panic at kern/pmap.c:147: PADDR called with invalid kva 00000000``` will occur.
   This is a bug caused by the linker script, modify kern/kernel.ld as follow will fix it.
