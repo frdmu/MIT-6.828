@@ -29,6 +29,7 @@
 - lab3 challenge3
 - HW8 Optional challenges
 - lab4 challenge
+- lab5 challenge
 # Website
 1. https://www.cs.hmc.edu/~rhodes/courses/cs134/sp19/schedule.html  
 2. https://pdos.csail.mit.edu/6.828/2011/schedule.html
