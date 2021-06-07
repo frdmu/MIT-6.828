@@ -1,0 +1,57 @@
++ ld obj/kern/kernel
++ mk obj/kern/kernel.img
+6828 decimal is 15254 octal!
+Physical memory: 131072K available, base = 640K, extended = 130432K
+UVPT ef400000 -> PADDR(kern_pgdir) 301000, pdx=957
+check_page_free_list() succeeded!
+check_page_alloc() succeeded!
+check_page() succeeded!
+UPAGES ef000000 -> PADDR(pages) 302000, pdx=956
+UENVS:eec00000 -> PADDR(envs) 342000, pdx=955
+(KSTACKTOP-KSTKSIZE) efff8000 -> PADDR(bootstack) 11a000, pdx=959
+size: 268435456 pages:65536
+KERNBASE f0000000 -> 0, pdx=960
+check_kern_pgdir() succeeded!
+check_page_free_list() succeeded!
+check_page_installed_pgdir() succeeded!
+SMP: CPU 0 found 1 CPU(s)
+enabled interrupts: 1 2 4
+PCI: 00:00.0: 8086:1237: class: 6.0 (Bridge device) irq: 0
+PCI: 00:01.0: 8086:7000: class: 6.1 (Bridge device) irq: 0
+PCI: 00:01.1: 8086:7010: class: 1.1 (Storage controller) irq: 0
+PCI: 00:01.3: 8086:7113: class: 6.80 (Bridge device) irq: 9
+PCI: 00:02.0: 1234:1111: class: 3.0 (Display controller) irq: 0
+PCI: 00:03.0: 8086:100e: class: 2.0 (Network controller) irq: 11
+FS is running
+FS can do I/O
+Device 1 presence: 1
+bc_pgfault thisenv->env_id:4096
+bc_pgfault thisenv->env_id:4096
+bc_pgfault thisenv->env_id:4096
+block cache is good
+superblock is good
+bc_pgfault thisenv->env_id:4096
+bitmap is good
+starting count down: 5 [00001001] user panic in <unknown> at user/testtime.c:11: sys_time_msec: invalid parameter
+Triggered Breakpoint at 0x008001cb
+Welcome to the JOS kernel monitor!
+Type 'help' for a list of commands.
+TRAP frame at 0xf034207c from CPU 0
+  edi  0x00000000
+  esi  0x00802728
+  ebp  0xeebfdf90
+  oesp 0xefffffdc
+  ebx  0xeebfdfa4
+  edx  0xeebfde38
+  ecx  0x00000001
+  eax  0x00000001
+  es   0x----0023
+  ds   0x----0023
+  trap 0x00000003 Breakpoint
+  err  0x00000000
+  eip  0x008001cb
+  cs   0x----001b
+  flag 0x00000292
+  esp  0xeebfdf68
+  ss   0x----0023
+qemu: terminating on signal 15 from pid 11048
