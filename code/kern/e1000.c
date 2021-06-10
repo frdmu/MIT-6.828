@@ -34,11 +34,9 @@ int e1000_transmit(void* addr, int len) {
     return 0;
 }
 int pci_e1000_attach(struct pci_func *pcif) {
-    char *pkt = "hello, world!";
     pci_func_enable(pcif);
     e1000 = mmio_map_region(pcif->reg_base[0], pcif->reg_size[0]); 
     cprintf("device status:[%08x]\n", e1000[LOCATION(E1000_STATUS)]); 
     e1000_transmit_init();
-    e1000_transmit((void*)pkt, 13);
     return 0;
 }
