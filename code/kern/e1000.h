@@ -1,4 +1,5 @@
 #ifndef JOS_KERN_E1000_H
+
 #include <inc/types.h>
 #include <inc/mmu.h>
 
@@ -26,7 +27,7 @@ volatile uint32_t * e1000;
 struct e1000_tx_desc
 {
 	uint64_t addr;   /* Address of packet buffer*/
-	uint16_t length; /* Data buffer length */
+	uint16_t length; /* Packet buffer length */
 	uint8_t cso;     /* Checksum offset */
 	uint8_t cmd;     /* Descriptor control */
 	uint8_t status;  /* Descriptor status */
@@ -44,6 +45,6 @@ char e1000_tx_packet_buf[E1000_TX_DESC_ARRAY_SIZE][E1000_TX_DESC_BUF_MTU] __attr
 
 /* Func */
 void e1000_transmit_init(); 
-
+int e1000_transmit(void* addr, int len);
 #define JOS_KERN_E1000_H
 #endif  // SOL >= 6

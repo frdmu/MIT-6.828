@@ -19,11 +19,26 @@ void e1000_transmit_init() {
     e1000[LOCATION(E1000_TCTL)] = E1000_TCTL_EN | E1000_TCTL_PSP | (E1000_TCTL_CT & (0x10 << 4)) | (E1000_TCTL_COLD & (0x40 << 12));
     e1000[LOCATION(E1000_TIPG)] = 10 | (4 << 10) | (6 << 20);
 }
-int 
-pci_e1000_attach(struct pci_func *pcif) {
+int e1000_transmit(void* addr, int len) {
+    int e1000_tdt = e1000[LOCATION(E1000_TDT)];
+    struct e1000_tx_desc* e1000_tx_desc_ptr = &e1000_tx_desc_array[e1000_tdt];
+    if (!(e1000_tx_desc_ptr->status & E1000_TXD_STAT_DD))
+        return -1; // transmit queue is full
+
+    memmove(e1000_tx_packet_buf[e1000_tdt], addr, len);
+    e1000_tx_desc_ptr->status = E1000_TXD_STAT_DD;
+    e1000_tx_desc_ptr->length = len;
+
+    e1000[LOCATION(E1000_TDT)] = (e1000_tdt + 1) % E1000_TX_DESC_ARRAY_SIZE;
+
+    return 0;
+}
+int pci_e1000_attach(struct pci_func *pcif) {
+    char *pkt = "hello, world!";
     pci_func_enable(pcif);
     e1000 = mmio_map_region(pcif->reg_base[0], pcif->reg_size[0]); 
     cprintf("device status:[%08x]\n", e1000[LOCATION(E1000_STATUS)]); 
     e1000_transmit_init();
+    e1000_transmit((void*)pkt, 13);
     return 0;
 }
