@@ -9,7 +9,8 @@ void e1000_transmit_init() {
     memset(e1000_tx_desc_array, 0, sizeof(struct e1000_tx_desc) * E1000_TX_DESC_ARRAY_SIZE);
     for (i = 0; i < E1000_TX_DESC_ARRAY_SIZE; i++) {
         e1000_tx_desc_array[i].addr = PADDR(e1000_tx_packet_buf[i]);
-        e1000_tx_desc_array[i].status = E1000_TXD_STAT_DD;
+        e1000_tx_desc_array[i].status = E1000_TXD_STAT_DD; // free
+        e1000_tx_desc_array[i].cmd = E1000_TXD_CMD_RS | E1000_TXD_CMD_EOP; 
     }
     
     e1000[LOCATION(E1000_TDBAL)] = PADDR(e1000_tx_desc_array);
@@ -26,8 +27,8 @@ int e1000_transmit(void* addr, int len) {
         return -1; // transmit queue is full
 
     memmove(e1000_tx_packet_buf[e1000_tdt], addr, len);
-    e1000_tx_desc_ptr->status = E1000_TXD_STAT_DD;
-    e1000_tx_desc_ptr->length = len;
+    e1000_tx_desc_ptr->status &= ~E1000_TXD_STAT_DD;
+    e1000_tx_desc_ptr->length = (uint16_t)len;
 
     e1000[LOCATION(E1000_TDT)] = (e1000_tdt + 1) % E1000_TX_DESC_ARRAY_SIZE;
 

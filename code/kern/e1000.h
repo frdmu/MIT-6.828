@@ -36,7 +36,8 @@ struct e1000_tx_desc
 }__attribute__((packed));
 /* Transmit Descriptor bit definitions */
 #define E1000_TXD_STAT_DD    0x00000001 /* Descriptor Done */
-
+#define E1000_TXD_CMD_RS     0x08 /* Report Status */
+#define E1000_TXD_CMD_EOP    0x01 /* End of Packet */
 /* Reserve memory for the transmit descriptor array and the packet buffers pointed to by the transmit descriptors */
 #define E1000_TX_DESC_ARRAY_SIZE 64 /* Size of transmit descriptor queue */
 #define E1000_TX_DESC_BUF_MTU 1518  /* The maximum size of an Ethernet packet */
