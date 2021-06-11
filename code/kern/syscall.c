@@ -436,6 +436,11 @@ sys_pkt_try_send(void* buf, int len)
     return e1000_transmit(buf, len);
 }
 
+int
+sys_pkt_try_recv(void *buf, int * len)
+{
+    return e1000_receive(buf, len);
+}
 // Dispatches to the correct kernel function, passing the arguments.
 int32_t
 syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, uint32_t a5)
@@ -481,6 +486,8 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, 
         return sys_time_msec();
     case SYS_pkt_try_send:
         return sys_pkt_try_send((void*)a1, (int)a2);
+    case SYS_pkt_try_recv:
+        return sys_pkt_try_recv((void*)a1, (int*)a2);
     default:
 		return -E_INVAL;
 	}

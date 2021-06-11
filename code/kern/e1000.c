@@ -52,6 +52,20 @@ void e1000_receive_init() {
 
     e1000[LOCATION(E1000_RCTL)] = E1000_RCTL_EN | E1000_RCTL_BAM | E1000_RCTL_SECRC;
 }
+void e1000_receive(void *addr, int *len) {
+    int next = 0;
+    int tail = e1000[LOCATION(E1000_RDT)];
+    if (!(e1000_rx_desc_array[next].status & E1000_RXD_STAT_DD))
+        return -1; // no packet received
+    
+    *len = e1000_rx_desc_array[next].length;
+    memcpy(buf, e1000_rx_packet_buf[next], *len);
+
+    e1000_rx_desc_array[next].status &= ~E1000_RXD_STAT_DD;
+    next = (next + 1) % E1000_RX_DESC_ARRAY_SIZE;
+    e1000[LOCATION(E1000_RDT)] = (tail + 1) % E1000_RX_DESC_ARRAY_SIZE;
+    return 0;
+}
 int pci_e1000_attach(struct pci_func *pcif) {
     pci_func_enable(pcif);
     e1000 = mmio_map_region(pcif->reg_base[0], pcif->reg_size[0]); 

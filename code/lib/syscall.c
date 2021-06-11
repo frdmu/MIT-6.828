@@ -128,3 +128,9 @@ sys_pkt_try_send(void *buf, int len)
 {
     return syscall(SYS_pkt_try_send, 1, (uint32_t)buf, len, 0, 0, 0);
 }
+
+int 
+sys_pkt_try_recv(void *buf, int *len)
+{
+    return syscall(SYS_pkt_try_recv, 1, (uint32_t)buf, (uint32_t)len, 0, 0, 0);
+}

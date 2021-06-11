@@ -64,6 +64,8 @@ struct e1000_rx_desc {
     uint8_t errors;      /* Descriptor Errors */
     uint16_t special;
 };
+/* Receive Descriptor bit definitions */
+#define E1000_RXD_STAT_DD       0x01    /* Descriptor Done */
 /* Reserve memory for the receive descriptor array and the packet buffers pointed to by the receive descriptors */
 #define E1000_RX_DESC_ARRAY_SIZE 128 /* Size of receive descriptor queue */
 #define E1000_RX_DESC_BUF_MTU 1518  /* The maximum size of an Ethernet packet */
@@ -74,5 +76,6 @@ char e1000_rx_packet_buf[E1000_RX_DESC_ARRAY_SIZE][E1000_RX_DESC_BUF_MTU] __attr
 void e1000_transmit_init(); 
 int e1000_transmit(void* addr, int len);
 void e1000_receive_init();
+void e1000_receive(void* addr, int* len);
 #define JOS_KERN_E1000_H
 #endif  // SOL >= 6
