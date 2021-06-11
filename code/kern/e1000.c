@@ -34,10 +34,29 @@ int e1000_transmit(void* addr, int len) {
 
     return 0;
 }
+void e1000_receive_init() {
+    int i; 
+    
+    e1000[LOCATION(E1000_RA)] = 0x12005452;
+    e1000[LOCATION(E1000_RA)+1] = 0x00005634 | E1000_RAH_AV;
+    
+    memset(e1000_rx_desc_array, 0, sizeof(struct e1000_rx_desc) * E1000_RX_DESC_ARRAY_SIZE); 
+    for (i = 0; i < E1000_RX_DESC_ARRAY_SIZE; i++) {
+        e1000_rx_desc_array[i].buffer_addr = PADDR(e1000_rx_packet_buf[i]);
+    }
+
+    e1000[LOCATION(E1000_RDBAL)] = PADDR(e1000_rx_desc_array);
+    e1000[LOCATION(E1000_RDLEN)] = sizeof(struct e1000_rx_desc) * E1000_RX_DESC_ARRAY_SIZE;
+    e1000[LOCATION(E1000_RDH)] = 0;
+    e1000[LOCATION(E1000_RDT)] = E1000_RX_DESC_ARRAY_SIZE - 1;
+
+    e1000[LOCATION(E1000_RCTL)] = E1000_RCTL_EN | E1000_RCTL_BAM | E1000_RCTL_SECRC;
+}
 int pci_e1000_attach(struct pci_func *pcif) {
     pci_func_enable(pcif);
     e1000 = mmio_map_region(pcif->reg_base[0], pcif->reg_size[0]); 
     cprintf("device status:[%08x]\n", e1000[LOCATION(E1000_STATUS)]); 
     e1000_transmit_init();
+    e1000_receive_init();
     return 0;
 }
